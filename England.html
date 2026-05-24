@@ -3,25 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Response London Security</title>
+<title>Response England</title>
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
 body{
-background:#000;
+background:black;
 overflow:hidden;
 color:white;
 }
 
-/* LOADING */
+/* HUD */
+.hud{
+position:fixed;
+inset:0;
+pointer-events:none;
+background:radial-gradient(circle,transparent 60%,rgba(0,255,255,.05));
+}
 
-#loading{
+/* INTRO */
+#intro{
 position:fixed;
 inset:0;
 background:black;
@@ -29,88 +36,97 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:9999;
+z-index:99999;
 }
 
-.loader{
-width:120px;
-height:120px;
-border-radius:50%;
-border:8px solid rgba(255,255,255,.2);
-border-top:8px solid cyan;
-animation:spin 1s linear infinite;
+.introText{
+font-size:60px;
+letter-spacing:10px;
+animation:glitch 1s infinite;
+text-shadow:0 0 20px cyan;
 }
 
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-.progress{
-width:350px;
-height:20px;
-background:#222;
+.nuke{
+font-size:50px;
 margin-top:20px;
-border-radius:30px;
-overflow:hidden;
+color:red;
+text-shadow:0 0 20px red;
+}
+
+@keyframes glitch{
+0%{transform:translate(0);}
+25%{transform:translate(-2px,2px);}
+50%{transform:translate(2px,-2px);}
+75%{transform:translate(-1px,1px);}
+100%{transform:translate(0);}
+}
+
+/* FLASH */
+.flash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+z-index:999999;
+pointer-events:none;
+}
+
+.flash.active{
+animation:flash .5s;
+}
+
+@keyframes flash{
+0%{opacity:0;}
+50%{opacity:1;}
+100%{opacity:0;}
+}
+
+/* LOADING */
+#loading{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:99998;
 }
 
 .bar{
+width:400px;
+height:15px;
+background:#111;
+border-radius:50px;
+overflow:hidden;
+box-shadow:0 0 20px cyan;
+}
+
+.fill{
 width:0%;
 height:100%;
-background:linear-gradient(
-90deg,
-red,
-orange,
-yellow,
-lime,
-cyan,
-blue,
-purple
-);
+background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,purple);
 }
 
 /* LOGIN */
-
 #login{
 display:none;
 position:fixed;
 inset:0;
 justify-content:center;
 align-items:center;
-background:
-linear-gradient(-45deg,
-#ff0000,
-#ff7700,
-#ffee00,
-#00ff99,
-#00ccff,
-#0055ff,
-#9900ff,
-#ff00cc);
-background-size:400% 400%;
-animation:bg 10s ease infinite;
+background:radial-gradient(circle,#111,#000);
+z-index:99998;
 }
 
-@keyframes bg{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-.login-box{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-padding:40px;
-border-radius:25px;
+.box{
 width:420px;
+padding:40px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border-radius:20px;
 text-align:center;
-box-shadow:0 0 40px rgba(255,255,255,.3);
-}
-
-.login-box h1{
-margin-bottom:10px;
+box-shadow:0 0 40px cyan;
 }
 
 input{
@@ -119,7 +135,8 @@ padding:15px;
 margin-top:20px;
 border:none;
 border-radius:10px;
-font-size:18px;
+background:#111;
+color:white;
 text-align:center;
 }
 
@@ -128,90 +145,55 @@ margin-top:20px;
 padding:15px 40px;
 border:none;
 border-radius:50px;
+background:linear-gradient(90deg,cyan,blue,purple);
+color:white;
 cursor:pointer;
-font-weight:bold;
-font-size:18px;
 }
 
-#error{
-margin-top:15px;
-color:#ff4444;
-}
-
-/* WEBSITE */
-
-#website{
+/* SITE */
+#site{
 display:none;
 height:100vh;
 overflow:auto;
 padding:40px;
-text-align:center;
-background:
-linear-gradient(-45deg,
-#ff0000,
-#ff7700,
-#ffee00,
-#00ff99,
-#00ccff,
-#0055ff,
-#9900ff,
-#ff00cc);
-background-size:400% 400%;
-animation:bg 10s ease infinite;
+background:linear-gradient(-45deg,#000,#111,#000,#0a0a0a);
 }
 
 .title{
-font-size:70px;
-font-weight:bold;
-animation:rainbow 5s linear infinite;
-text-shadow:
-0 0 20px white,
-0 0 40px cyan;
+font-size:85px;
+text-align:center;
+text-shadow:0 0 30px cyan;
 }
 
-@keyframes rainbow{
-100%{
-filter:hue-rotate(360deg);
-}
-}
-
-.clock{
-font-size:24px;
-margin-top:10px;
-}
-
-.buttons{
+.btns{
+text-align:center;
 margin-top:30px;
 }
 
 .btn{
 display:inline-block;
-padding:15px 35px;
+padding:15px 40px;
 margin:10px;
 border-radius:50px;
 text-decoration:none;
 color:white;
-font-weight:bold;
-background:rgba(255,255,255,.15);
+background:rgba(255,255,255,.1);
 backdrop-filter:blur(10px);
+}
+
+.card{
+background:rgba(255,255,255,.05);
+margin:15px auto;
+padding:20px;
+border-radius:15px;
+max-width:600px;
+text-align:center;
 transition:.3s;
 }
 
-.btn:hover{
-transform:scale(1.1);
-}
-
-.staff{
-margin-top:50px;
-}
-
-.staff-card{
-background:rgba(255,255,255,.12);
-padding:20px;
-margin:15px auto;
-max-width:600px;
-border-radius:15px;
-font-size:20px;
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px cyan;
 }
 
 #particles{
@@ -220,267 +202,144 @@ inset:0;
 pointer-events:none;
 }
 
-.particle{
+.p{
 position:absolute;
+width:6px;
+height:6px;
+background:cyan;
 border-radius:50%;
-background:rgba(255,255,255,.2);
 animation:float linear infinite;
 }
 
 @keyframes float{
-from{
-transform:translateY(100vh);
-}
-to{
-transform:translateY(-120vh);
-}
-}
-
-#cursor{
-position:fixed;
-width:20px;
-height:20px;
-border-radius:50%;
-background:white;
-box-shadow:
-0 0 20px cyan,
-0 0 40px magenta;
-pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:99999;
+from{transform:translateY(100vh);}
+to{transform:translateY(-120vh);}
 }
 </style>
 </head>
 
 <body>
 
-<div id="cursor"></div>
-
+<div class="hud"></div>
 <div id="particles"></div>
+<div class="flash" id="flash"></div>
 
+<!-- INTRO -->
+<div id="intro">
+<div class="introText">RESPONSE ENGLAND</div>
+<div class="nuke" id="nuke">NUKE: 5.4.3.2.1</div>
+</div>
+
+<!-- LOADING -->
 <div id="loading">
-<div class="loader"></div>
-<h2 style="margin-top:20px;">Loading Response London...</h2>
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
+<h2>Booting Response England...</h2>
+<div class="bar"><div class="fill" id="fill"></div></div>
 </div>
 
+<!-- LOGIN -->
 <div id="login">
-<div class="login-box">
-<h1>🔒 Website Security</h1>
-<p>Security Code Required</p>
-
-<input
-type="password"
-id="code"
-placeholder="Enter Security Code">
-
-<button onclick="checkCode()">
-ENTER
-</button>
-
-<p id="error"></p>
+<div class="box">
+<h1>SECURITY ACCESS - RESPONSE ENGLAND</h1>
+<input id="code" type="password" placeholder="****">
+<button onclick="check()">ENTER</button>
 </div>
 </div>
 
-<div id="website">
+<!-- SITE -->
+<div id="site">
 
-<div class="title">
-RESPONSE LONDON
+<div class="title">RESPONSE ENGLAND</div>
+
+<div class="btns">
+<a class="btn" href="https://www.roblox.com/games/71350675430720/Response-London">🎮 ROBLOX</a>
+<a class="btn" href="https://discord.gg/UFhpVPVK">💬 DISCORD</a>
 </div>
 
-<div class="clock" id="clock"></div>
+<h1 style="text-align:center;margin-top:50px;">👑 STAFF</h1>
 
-<div class="buttons">
+<div class="card">Nadz — Lead Dev</div>
+<div class="card">Raz — Support</div>
+<div class="card">Pete — Manager</div>
+<div class="card">Alex — Founder</div>
 
-<a class="btn"
-href="https://www.roblox.com/games/71350675430720/Response-London"
-target="_blank">
-🎮 PLAY ROBLOX
-</a>
-
-<a class="btn"
-href="https://discord.gg/UFhpVPVK"
-target="_blank">
-💬 JOIN DISCORD
-</a>
-
-</div>
-
-<div class="staff">
-
-<h1>👑 STAFF TEAM</h1>
-
-<div class="staff-card">
-Nadz — Lead Developer
-</div>
-
-<div class="staff-card">
-Raz — Community Support
-</div>
-
-<div class="staff-card">
-PETE — Community Manager
-</div>
-
-<div class="staff-card">
-Alex — Founder
-</div>
-
+<div style="text-align:center;margin-top:50px;">
+<h2>📊 RESPONSE ENGLAND STATUS</h2>
+<div class="card">Players: 1200+</div>
+<div class="card">Discord Active</div>
+<div class="card">Updates Weekly</div>
 </div>
 
 </div>
 
 <script>
 
-/* AUDIO */
+/* NUKE */
+let nuke=5;
+let nukeText=document.getElementById("nuke");
 
-const audioCtx =
-new (window.AudioContext||
-window.webkitAudioContext)();
+let interval=setInterval(()=>{
 
-function beep(freq,time){
-const osc=
-audioCtx.createOscillator();
+nuke--;
 
-const gain=
-audioCtx.createGain();
-
-osc.frequency.value=freq;
-osc.connect(gain);
-gain.connect(audioCtx.destination);
-
-osc.start();
-
-gain.gain.setValueAtTime(
-0.1,
-audioCtx.currentTime
-);
-
-gain.gain.exponentialRampToValueAtTime(
-0.0001,
-audioCtx.currentTime+time
-);
-
-osc.stop(audioCtx.currentTime+time);
+if(nuke>0){
+nukeText.innerText="NUKE: 5.4.3.2."+nuke;
 }
 
-/* LOADING */
-
-let progress=0;
-
-const interval=setInterval(()=>{
-
-progress++;
-
-document.getElementById("bar")
-.style.width=progress+"%";
-
-if(progress>=100){
-
+if(nuke===0){
 clearInterval(interval);
 
-document.getElementById("loading")
-.style.display="none";
+nukeText.innerText="💥 BOOM!";
 
-document.getElementById("login")
-.style.display="flex";
+document.getElementById("flash").classList.add("active");
 
-}
+setTimeout(()=>{
 
-},30);
+document.getElementById("intro").style.display="none";
+document.getElementById("loading").style.display="flex";
 
-/* INPUT SOUND */
-
-const codeInput =
-document.getElementById("code");
-
-codeInput.addEventListener(
-"keydown",
-()=>{
-beep(700,0.05);
-}
-);
-
-/* CHECK CODE */
-
-function checkCode(){
-
-if(codeInput.value==="1234"){
-
-beep(1200,0.2);
-
-document.getElementById("login")
-.style.display="none";
-
-document.getElementById("website")
-.style.display="block";
-
-}else{
-
-beep(200,0.3);
-
-document.getElementById("error")
-.innerText=
-"❌ Invalid Security Code";
-
-}
-
-}
-
-/* CLOCK */
-
-setInterval(()=>{
-
-const d=new Date();
-
-document.getElementById("clock")
-.innerText=
-d.toLocaleTimeString();
+startLoading();
 
 },1000);
+}
+
+},800);
+
+/* LOADING */
+function startLoading(){
+let f=0;
+
+let load=setInterval(()=>{
+f++;
+document.getElementById("fill").style.width=f+"%";
+
+if(f>=100){
+clearInterval(load);
+
+document.getElementById("loading").style.display="none";
+document.getElementById("login").style.display="flex";
+}
+
+},20);
+}
+
+/* LOGIN */
+function check(){
+if(document.getElementById("code").value==="1234"){
+document.getElementById("login").style.display="none";
+document.getElementById("site").style.display="block";
+}else{
+alert("WRONG CODE");
+}
+}
 
 /* PARTICLES */
-
-for(let i=0;i<80;i++){
-
-const p=document.createElement("div");
-
-p.className="particle";
-
-const size=
-Math.random()*10+5;
-
-p.style.width=size+"px";
-p.style.height=size+"px";
-
-p.style.left=
-Math.random()*100+"vw";
-
-p.style.animationDuration=
-(Math.random()*10+5)+"s";
-
-document
-.getElementById("particles")
-.appendChild(p);
-
+for(let i=0;i<60;i++){
+let d=document.createElement("div");
+d.className="p";
+d.style.left=Math.random()*100+"vw";
+d.style.animationDuration=(Math.random()*10+5)+"s";
+document.getElementById("particles").appendChild(d);
 }
-
-/* CURSOR */
-
-document.addEventListener(
-"mousemove",
-e=>{
-
-document.getElementById("cursor")
-.style.left=e.clientX+"px";
-
-document.getElementById("cursor")
-.style.top=e.clientY+"px";
-
-}
-);
 
 </script>
 
