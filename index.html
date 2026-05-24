@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Response London Security</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#000;
+overflow:hidden;
+color:white;
+}
+
+/* LOADING */
+
+#loading{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.loader{
+width:120px;
+height:120px;
+border-radius:50%;
+border:8px solid rgba(255,255,255,.2);
+border-top:8px solid cyan;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+.progress{
+width:350px;
+height:20px;
+background:#222;
+margin-top:20px;
+border-radius:30px;
+overflow:hidden;
+}
+
+.bar{
+width:0%;
+height:100%;
+background:linear-gradient(
+90deg,
+red,
+orange,
+yellow,
+lime,
+cyan,
+blue,
+purple
+);
+}
+
+/* LOGIN */
+
+#login{
+display:none;
+position:fixed;
+inset:0;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(-45deg,
+#ff0000,
+#ff7700,
+#ffee00,
+#00ff99,
+#00ccff,
+#0055ff,
+#9900ff,
+#ff00cc);
+background-size:400% 400%;
+animation:bg 10s ease infinite;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.login-box{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:40px;
+border-radius:25px;
+width:420px;
+text-align:center;
+box-shadow:0 0 40px rgba(255,255,255,.3);
+}
+
+.login-box h1{
+margin-bottom:10px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:10px;
+font-size:18px;
+text-align:center;
+}
+
+button{
+margin-top:20px;
+padding:15px 40px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+font-weight:bold;
+font-size:18px;
+}
+
+#error{
+margin-top:15px;
+color:#ff4444;
+}
+
+/* WEBSITE */
+
+#website{
+display:none;
+height:100vh;
+overflow:auto;
+padding:40px;
+text-align:center;
+background:
+linear-gradient(-45deg,
+#ff0000,
+#ff7700,
+#ffee00,
+#00ff99,
+#00ccff,
+#0055ff,
+#9900ff,
+#ff00cc);
+background-size:400% 400%;
+animation:bg 10s ease infinite;
+}
+
+.title{
+font-size:70px;
+font-weight:bold;
+animation:rainbow 5s linear infinite;
+text-shadow:
+0 0 20px white,
+0 0 40px cyan;
+}
+
+@keyframes rainbow{
+100%{
+filter:hue-rotate(360deg);
+}
+}
+
+.clock{
+font-size:24px;
+margin-top:10px;
+}
+
+.buttons{
+margin-top:30px;
+}
+
+.btn{
+display:inline-block;
+padding:15px 35px;
+margin:10px;
+border-radius:50px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(10px);
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+}
+
+.staff{
+margin-top:50px;
+}
+
+.staff-card{
+background:rgba(255,255,255,.12);
+padding:20px;
+margin:15px auto;
+max-width:600px;
+border-radius:15px;
+font-size:20px;
+}
+
+#particles{
+position:fixed;
+inset:0;
+pointer-events:none;
+}
+
+.particle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.2);
+animation:float linear infinite;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh);
+}
+to{
+transform:translateY(-120vh);
+}
+}
+
+#cursor{
+position:fixed;
+width:20px;
+height:20px;
+border-radius:50%;
+background:white;
+box-shadow:
+0 0 20px cyan,
+0 0 40px magenta;
+pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:99999;
+}
+</style>
+</head>
+
+<body>
+
+<div id="cursor"></div>
+
+<div id="particles"></div>
+
+<div id="loading">
+<div class="loader"></div>
+<h2 style="margin-top:20px;">Loading Response London...</h2>
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+</div>
+
+<div id="login">
+<div class="login-box">
+<h1>🔒 Website Security</h1>
+<p>Security Code Required</p>
+
+<input
+type="password"
+id="code"
+placeholder="Enter Security Code">
+
+<button onclick="checkCode()">
+ENTER
+</button>
+
+<p id="error"></p>
+</div>
+</div>
+
+<div id="website">
+
+<div class="title">
+RESPONSE LONDON
+</div>
+
+<div class="clock" id="clock"></div>
+
+<div class="buttons">
+
+<a class="btn"
+href="https://www.roblox.com/games/71350675430720/Response-London"
+target="_blank">
+🎮 PLAY ROBLOX
+</a>
+
+<a class="btn"
+href="https://discord.gg/UFhpVPVK"
+target="_blank">
+💬 JOIN DISCORD
+</a>
+
+</div>
+
+<div class="staff">
+
+<h1>👑 STAFF TEAM</h1>
+
+<div class="staff-card">
+Nadz — Lead Developer
+</div>
+
+<div class="staff-card">
+Raz — Community Support
+</div>
+
+<div class="staff-card">
+PETE — Community Manager
+</div>
+
+<div class="staff-card">
+Alex — Founder
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* AUDIO */
+
+const audioCtx =
+new (window.AudioContext||
+window.webkitAudioContext)();
+
+function beep(freq,time){
+const osc=
+audioCtx.createOscillator();
+
+const gain=
+audioCtx.createGain();
+
+osc.frequency.value=freq;
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+
+osc.start();
+
+gain.gain.setValueAtTime(
+0.1,
+audioCtx.currentTime
+);
+
+gain.gain.exponentialRampToValueAtTime(
+0.0001,
+audioCtx.currentTime+time
+);
+
+osc.stop(audioCtx.currentTime+time);
+}
+
+/* LOADING */
+
+let progress=0;
+
+const interval=setInterval(()=>{
+
+progress++;
+
+document.getElementById("bar")
+.style.width=progress+"%";
+
+if(progress>=100){
+
+clearInterval(interval);
+
+document.getElementById("loading")
+.style.display="none";
+
+document.getElementById("login")
+.style.display="flex";
+
+}
+
+},30);
+
+/* INPUT SOUND */
+
+const codeInput =
+document.getElementById("code");
+
+codeInput.addEventListener(
+"keydown",
+()=>{
+beep(700,0.05);
+}
+);
+
+/* CHECK CODE */
+
+function checkCode(){
+
+if(codeInput.value==="1234"){
+
+beep(1200,0.2);
+
+document.getElementById("login")
+.style.display="none";
+
+document.getElementById("website")
+.style.display="block";
+
+}else{
+
+beep(200,0.3);
+
+document.getElementById("error")
+.innerText=
+"❌ Invalid Security Code";
+
+}
+
+}
+
+/* CLOCK */
+
+setInterval(()=>{
+
+const d=new Date();
+
+document.getElementById("clock")
+.innerText=
+d.toLocaleTimeString();
+
+},1000);
+
+/* PARTICLES */
+
+for(let i=0;i<80;i++){
+
+const p=document.createElement("div");
+
+p.className="particle";
+
+const size=
+Math.random()*10+5;
+
+p.style.width=size+"px";
+p.style.height=size+"px";
+
+p.style.left=
+Math.random()*100+"vw";
+
+p.style.animationDuration=
+(Math.random()*10+5)+"s";
+
+document
+.getElementById("particles")
+.appendChild(p);
+
+}
+
+/* CURSOR */
+
+document.addEventListener(
+"mousemove",
+e=>{
+
+document.getElementById("cursor")
+.style.left=e.clientX+"px";
+
+document.getElementById("cursor")
+.style.top=e.clientY+"px";
+
+}
+);
+
+</script>
+
+</body>
+</html>
