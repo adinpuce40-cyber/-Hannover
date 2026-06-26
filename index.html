@@ -1,347 +1,462 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Response England</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Hannover</title>
+    <!-- FontAwesome za TikTok i Discord ikone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(20, 24, 30, 0.85), rgba(20, 24, 30, 0.95)), 
+                        url('https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
+        /* Navigacijski bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(10, 12, 16, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
 
-body{
-background:black;
-overflow:hidden;
-color:white;
-}
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+        }
 
-/* HUD */
-.hud{
-position:fixed;
-inset:0;
-pointer-events:none;
-background:radial-gradient(circle,transparent 60%,rgba(0,255,255,.05));
-}
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
 
-/* INTRO */
-#intro{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
+        .social-icons a {
+            color: #aaaaaa;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-left: 15px;
+        }
 
-.introText{
-font-size:60px;
-letter-spacing:10px;
-animation:glitch 1s infinite;
-text-shadow:0 0 20px cyan;
-}
+        .social-icons a:hover {
+            color: #ff3333;
+        }
 
-.nuke{
-font-size:50px;
-margin-top:20px;
-color:red;
-text-shadow:0 0 20px red;
-}
+        .lang-switcher {
+            display: flex;
+            gap: 5px;
+            background: #1a1d24;
+            padding: 4px;
+            border-radius: 6px;
+            border: 1px solid #333;
+        }
 
-@keyframes glitch{
-0%{transform:translate(0);}
-25%{transform:translate(-2px,2px);}
-50%{transform:translate(2px,-2px);}
-75%{transform:translate(-1px,1px);}
-100%{transform:translate(0);}
-}
+        .lang-btn {
+            background: none;
+            color: #888;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
 
-/* FLASH */
-.flash{
-position:fixed;
-inset:0;
-background:white;
-opacity:0;
-z-index:999999;
-pointer-events:none;
-}
+        .lang-btn.active, .lang-btn:hover {
+            background-color: #990000;
+            color: white;
+        }
 
-.flash.active{
-animation:flash .5s;
-}
+        /* Glavni sadržaj heroj sekcije */
+        .hero {
+            text-align: left;
+            max-width: 800px;
+            margin: auto auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
 
-@keyframes flash{
-0%{opacity:0;}
-50%{opacity:1;}
-100%{opacity:0;}
-}
+        .by-studio {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+        }
 
-/* LOADING */
-#loading{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:99998;
-}
+        .hero h1 {
+            font-size: 4.5rem;
+            margin: 0 0 20px 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            line-height: 1;
+            color: #ffffff;
+        }
 
-.bar{
-width:400px;
-height:15px;
-background:#111;
-border-radius:50px;
-overflow:hidden;
-box-shadow:0 0 20px cyan;
-}
+        .announcement {
+            display: inline-block;
+            background: rgba(153, 0, 0, 0.2);
+            border: 1px solid #990000;
+            color: #ff6666;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
 
-.fill{
-width:0%;
-height:100%;
-background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,purple);
-}
+        /* Gumbi opcija */
+        .cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-/* LOGIN */
-#login{
-display:none;
-position:fixed;
-inset:0;
-justify-content:center;
-align-items:center;
-background:radial-gradient(circle,#111,#000);
-z-index:99998;
-}
+        .btn {
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.box{
-width:420px;
-padding:40px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(20px);
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px cyan;
-}
+        .btn-primary {
+            background-color: #990000;
+            color: white;
+            border: none;
+        }
 
-input{
-width:100%;
-padding:15px;
-margin-top:20px;
-border:none;
-border-radius:10px;
-background:#111;
-color:white;
-text-align:center;
-}
+        .btn-primary:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+        }
 
-button{
-margin-top:20px;
-padding:15px 40px;
-border:none;
-border-radius:50px;
-background:linear-gradient(90deg,cyan,blue,purple);
-color:white;
-cursor:pointer;
-}
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-/* SITE */
-#site{
-display:none;
-height:100vh;
-overflow:auto;
-padding:40px;
-background:linear-gradient(-45deg,#000,#111,#000,#0a0a0a);
-}
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: white;
+            transform: translateY(-2px);
+        }
 
-.title{
-font-size:85px;
-text-align:center;
-text-shadow:0 0 30px cyan;
-}
+        /* Forme kontejneri */
+        .form-section {
+            display: none;
+            background-color: rgba(15, 18, 24, 0.95);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+        }
 
-.btns{
-text-align:center;
-margin-top:30px;
-}
+        .form-section h3 {
+            margin-top: 0;
+            color: #ff3333;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
 
-.btn{
-display:inline-block;
-padding:15px 40px;
-margin:10px;
-border-radius:50px;
-text-decoration:none;
-color:white;
-background:rgba(255,255,255,.1);
-backdrop-filter:blur(10px);
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-.card{
-background:rgba(255,255,255,.05);
-margin:15px auto;
-padding:20px;
-border-radius:15px;
-max-width:600px;
-text-align:center;
-transition:.3s;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
 
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 30px cyan;
-}
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background-color: #0d0f13;
+            color: white;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
 
-#particles{
-position:fixed;
-inset:0;
-pointer-events:none;
-}
+        .form-group input:focus {
+            border-color: #990000;
+            outline: none;
+        }
 
-.p{
-position:absolute;
-width:6px;
-height:6px;
-background:cyan;
-border-radius:50%;
-animation:float linear infinite;
-}
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+        }
 
-@keyframes float{
-from{transform:translateY(100vh);}
-to{transform:translateY(-120vh);}
-}
-</style>
+        footer {
+            background-color: rgba(10, 12, 16, 0.95);
+            padding: 25px;
+            font-size: 0.85rem;
+            color: #555;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            text-align: center;
+            margin-top: auto;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="hud"></div>
-<div id="particles"></div>
-<div class="flash" id="flash"></div>
+    <!-- Navigacija -->
+    <nav class="navbar">
+        <div class="brand">Hannover Studios</div>
+        <div class="nav-right">
+            <div class="social-icons">
+                <!-- Tvoji ažurirani linkovi za TikTok i Discord -->
+                <a href="https://www.tiktok.com/@emergencyhannover" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://discord.gg/QZ2thZ9AMZ" target="_blank" title="Discord"><i class="fa-brands fa-discord"></i></a>
+            </div>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="switchLanguage('de')">DE</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+            </div>
+        </div>
+    </nav>
 
-<!-- INTRO -->
-<div id="intro">
-<div class="introText">RESPONSE ENGLAND</div>
-<div class="nuke" id="nuke">NUKE:5 </div>
-</div>
+    <!-- Glavni Hero Sadržaj -->
+    <div class="hero">
+        <div class="by-studio">By Hannover Studios</div>
+        <h1 id="hero-title">Emergency<br>Hannover</h1>
+        
+        <!-- Obavijest o otvaranju -->
+        <div class="announcement" id="game-status">
+            ⚠️ Das Spiel öffnet bald!
+        </div>
 
-<!-- LOADING -->
-<div id="loading">
-<h2>Booting Response England...</h2>
-<div class="bar"><div class="fill" id="fill"></div></div>
-</div>
+        <!-- Akcijski Gumbi -->
+        <div class="cta-group">
+            <button class="btn btn-primary" id="btn-report-nav" onclick="openForm('reportForm')">
+                <i class="fa-solid fa-triangle-exclamation"></i> Spieler melden
+            </button>
+            <button class="btn btn-secondary" id="btn-unban-nav" onclick="openForm('unbanForm')">
+                <i class="fa-solid fa-gavel"></i> Entbannung beantragen
+            </button>
+        </div>
+    </div>
 
-<!-- LOGIN -->
-<div id="login">
-<div class="box">
-<h1>SECURITY ACCESS - RESPONSE ENGLAND</h1>
-<input id="code" type="password" placeholder="****">
-<button onclick="check()">ENTER</button>
-</div>
-</div>
+    <!-- FORMA 1: Report Player -->
+    <div class="form-section" id="reportForm">
+        <h3 id="report-title">Spieler melden</h3>
+        <form onsubmit="submitReport(event)">
+            <div class="form-group">
+                <label for="rep-my-dc" id="lbl-rep-my-dc">Dein Discord-Benutzername:</label>
+                <input type="text" id="rep-my-dc" required placeholder="User123">
+            </div>
+            <div class="form-group">
+                <label for="rep-target-dc" id="lbl-rep-target-dc">Discord-User der Person, die Sie melden möchten:</label>
+                <input type="text" id="rep-target-dc" required placeholder="TargetUser#0000">
+            </div>
+            <div class="form-group">
+                <label for="rep-target-rbx" id="lbl-rep-target-rbx">Roblox-User der Person (die Sie melden):</label>
+                <input type="text" id="rep-target-rbx" required placeholder="RobloxTarget123">
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary" id="btn-submit-report">Senden</button>
+                <button type="button" class="btn btn-secondary" id="btn-close-report" onclick="closeForms()">Schließen</button>
+            </div>
+        </form>
+    </div>
 
-<!-- SITE -->
-<div id="site">
+    <!-- FORMA 2: Request Unban -->
+    <div class="form-section" id="unbanForm">
+        <h3 id="unban-title">Entbannung beantragen</h3>
+        <form onsubmit="submitUnban(event)">
+            <div class="form-group">
+                <label for="unban-my-dc" id="lbl-unban-my-dc">Dein Discord-Benutzername:</label>
+                <input type="text" id="unban-my-dc" required placeholder="User123">
+            </div>
+            <div class="form-group">
+                <label for="unban-my-rbx" id="lbl-unban-my-rbx">Dein Roblox-Benutzername:</label>
+                <input type="text" id="unban-my-rbx" required placeholder="RobloxUser123">
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary" id="btn-submit-unban">Senden</button>
+                <button type="button" class="btn btn-secondary" id="btn-close-unban" onclick="closeForms()">Schließen</button>
+            </div>
+        </form>
+    </div>
 
-<div class="title">RESPONSE ENGLAND</div>
+    <footer>
+        &copy; 2026 Emergency Hannover. All rights reserved.
+    </footer>
 
-<div class="btns">
-<a class="btn" href="https://www.roblox.com/games/71350675430720/Response-London">🎮 ROBLOX</a>
-<a class="btn" href="https://discord.gg/UFhpVPVK">💬 DISCORD</a>
-</div>
+    <script>
+        const translations = {
+            de: {
+                gameStatus: "⚠️ Das Spiel öffnet bald!",
+                reportNav: "<i class='fa-solid fa-triangle-exclamation'></i> Spieler melden",
+                unbanNav: "<i class='fa-solid fa-gavel'></i> Entbannung beantragen",
+                reportTitle: "Spieler melden",
+                lblRepMyDc: "Dein Discord-Benutzername:",
+                lblRepTargetDc: "Discord-User der Person, die Sie melden möchten:",
+                lblRepTargetRbx: "Roblox-User der Person (die Sie melden):",
+                unbanTitle: "Entbannung beantragen",
+                lblUnbanMyDc: "Dein Discord-Benutzername:",
+                lblUnbanMyRbx: "Dein Roblox-Benutzername:",
+                btnSubmit: "Senden",
+                btnClose: "Schließen",
+                alertSuccess: "Erfolgreich an Discord gesendet!",
+                alertError: "Fehler beim Senden."
+            },
+            en: {
+                gameStatus: "⚠️ Game is opening soon!",
+                reportNav: "<i class='fa-solid fa-triangle-exclamation'></i> Report a Player",
+                unbanNav: "<i class='fa-solid fa-gavel'></i> Request Unban",
+                reportTitle: "Report a Player",
+                lblRepMyDc: "Your Discord Username:",
+                lblRepTargetDc: "Discord User of the person you want to report:",
+                lblRepTargetRbx: "Roblox User of the person (you are reporting):",
+                unbanTitle: "Request Unban",
+                lblUnbanMyDc: "Your Discord Username:",
+                lblUnbanMyRbx: "Your Roblox Username:",
+                btnSubmit: "Submit",
+                btnClose: "Close",
+                alertSuccess: "Successfully sent to Discord!",
+                alertError: "Error while sending."
+            }
+        };
 
-<h1 style="text-align:center;margin-top:50px;">👑 STAFF</h1>
+        let currentLang = 'de';
+        const webhookUrl = "https://discord.com/api/webhooks/1520014480216686712/Pwe6mYpZ5xe9YFBsiyqC1F72_zqA3VWsfbqbHrS4oZh2JVyLluOt_QxfwmudKqYzpEyo";
 
-<div class="card">Nadz — Lead Dev</div>
-<div class="card">Raz — Support</div>
-<div class="card">Pete — Manager</div>
-<div class="card">Alex — Founder</div>
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) event.target.classList.add('active');
 
-<div style="text-align:center;margin-top:50px;">
-<h2>📊 RESPONSE ENGLAND STATUS</h2>
-<div class="card">Players: 120+</div>
-<div class="card">Discord Active</div>
-<div class="card">Updates Weekly</div>
-</div>
+            document.getElementById('game-status').innerText = translations[lang].gameStatus;
+            document.getElementById('btn-report-nav').innerHTML = translations[lang].reportNav;
+            document.getElementById('btn-unban-nav').innerHTML = translations[lang].unbanNav;
+            
+            // Report Form
+            document.getElementById('report-title').innerText = translations[lang].reportTitle;
+            document.getElementById('lbl-rep-my-dc').innerText = translations[lang].lblRepMyDc;
+            document.getElementById('lbl-rep-target-dc').innerText = translations[lang].lblRepTargetDc;
+            document.getElementById('lbl-rep-target-rbx').innerText = translations[lang].lblRepTargetRbx;
+            document.getElementById('btn-submit-report').innerText = translations[lang].btnSubmit;
+            document.getElementById('btn-close-report').innerText = translations[lang].btnClose;
 
-</div>
+            // Unban Form
+            document.getElementById('unban-title').innerText = translations[lang].unbanTitle;
+            document.getElementById('lbl-unban-my-dc').innerText = translations[lang].lblUnbanMyDc;
+            document.getElementById('lbl-unban-my-rbx').innerText = translations[lang].lblUnbanMyRbx;
+            document.getElementById('btn-submit-unban').innerText = translations[lang].btnSubmit;
+            document.getElementById('btn-close-unban').innerText = translations[lang].btnClose;
+        }
 
-<script>
+        function openForm(formId) {
+            closeForms();
+            const form = document.getElementById(formId);
+            form.style.display = "block";
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
 
-/* NUKE */
-let nuke=5;
-let nukeText=document.getElementById("nuke");
+        function closeForms() {
+            document.getElementById('reportForm').style.display = "none";
+            document.getElementById('unbanForm').style.display = "none";
+        }
 
-let interval=setInterval(()=>{
+        function submitReport(event) {
+            event.preventDefault();
+            const myDc = document.getElementById('rep-my-dc').value;
+            const targetDc = document.getElementById('rep-target-dc').value;
+            const targetRbx = document.getElementById('rep-target-rbx').value;
 
-nuke--;
+            const payload = {
+                username: "Emergency Hannover - Logs",
+                embeds: [{
+                    title: "🚨 NEUER SPIELER-REPORT",
+                    color: 16711680,
+                    fields: [
+                        { name: "👤 Gemeldet von (Discord):", value: myDc, inline: false },
+                        { name: "🎯 Gemeldeter Discord-User:", value: targetDc, inline: true },
+                        { name: "🎮 Gemeldeter Roblox-User:", value: targetRbx, inline: true }
+                    ],
+                    timestamp: new Date()
+                }]
+            };
 
-if(nuke>0){
-nukeText.innerText="NUKE:0"+nuke;
-}
+            sendToDiscord(payload, 'reportForm');
+        }
 
-if(nuke===0){
-clearInterval(interval);
+        function submitUnban(event) {
+            event.preventDefault();
+            const myDc = document.getElementById('unban-my-dc').value;
+            const myRbx = document.getElementById('unban-my-rbx').value;
 
-nukeText.innerText="💥 BOOM!";
+            const payload = {
+                username: "Emergency Hannover - Logs",
+                embeds: [{
+                    title: "🔓 ENTBANNUNGSANTRAG",
+                    color: 65280,
+                    fields: [
+                        { name: "👤 Discord-User:", value: myDc, inline: true },
+                        { name: "🎮 Roblox-User:", value: myRbx, inline: true }
+                    ],
+                    timestamp: new Date()
+                }]
+            };
 
-document.getElementById("flash").classList.add("active");
+            sendToDiscord(payload, 'unbanForm');
+        }
 
-setTimeout(()=>{
-
-document.getElementById("intro").style.display="none";
-document.getElementById("loading").style.display="flex";
-
-startLoading();
-
-},1000);
-}
-
-},800);
-
-/* LOADING */
-function startLoading(){
-let f=0;
-
-let load=setInterval(()=>{
-f++;
-document.getElementById("fill").style.width=f+"%";
-
-if(f>=100){
-clearInterval(load);
-
-document.getElementById("loading").style.display="none";
-document.getElementById("login").style.display="flex";
-}
-
-},20);
-}
-
-/* LOGIN */
-function check(){
-if(document.getElementById("code").value==="1234"){
-document.getElementById("login").style.display="none";
-document.getElementById("site").style.display="block";
-}else{
-alert("WRONG CODE");
-}
-}
-
-/* PARTICLES */
-for(let i=0;i<60;i++){
-let d=document.createElement("div");
-d.className="p";
-d.style.left=Math.random()*100+"vw";
-d.style.animationDuration=(Math.random()*10+5)+"s";
-document.getElementById("particles").appendChild(d);
-}
-
-</script>
-
+        function sendToDiscord(payload, formId) {
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(translations[currentLang].alertSuccess);
+                    document.getElementById(formId).querySelector('form').reset();
+                    closeForms();
+                } else {
+                    alert(translations[currentLang].alertError);
+                }
+            })
+            .catch(() => alert(translations[currentLang].alertError));
+        }
+    </script>
 </body>
 </html>
+
